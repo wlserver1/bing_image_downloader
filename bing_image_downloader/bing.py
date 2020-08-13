@@ -20,6 +20,7 @@ class Bing:
         self.output_dir = output_dir
         self.adult = adult
         self.filters = filters
+        self.originalQuery = query
 
         assert type(limit) == int, "limit must be integer"
         self.limit = limit
@@ -63,13 +64,21 @@ class Bing:
         while self.download_count < self.limit:
             print('\n\n[!!]Indexing page: {}\n'.format(self.page_counter + 1))
             # Parse the page source and download pics
-            request_url = 'https://www.bing.com/images/async?q=' + urllib.parse.quote_plus(self.query) \
+            request_url = 'https://www.bing.com/images/async?q=' + urllib.parse.quote_plus(self.originalQuery) \
                           + '&first=' + str(self.page_counter) + '&count=' + str(self.limit) \
                           + '&adlt=' + self.adult + '&qft=' + self.filters
             request = urllib.request.Request(request_url, None, headers=self.headers)
             response = urllib.request.urlopen(request)
             html = response.read().decode('utf8')
             links = re.findall('murl&quot;:&quot;(.*?)&quot;', html)
+
+            if len(links) == 0 or self.download_count >= len(links):
+                self.originalQuery = ' '.join(self.originalQuery.split()[:-1])
+                print('Query Changed due to no more unique result to ' + self.originalQuery)
+                if self.originalQuery == '':
+                    self.originalQuery = 'Breaking News'
+                continue
+
 
             print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
             print("\n===============================================\n")
