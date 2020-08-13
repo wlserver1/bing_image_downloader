@@ -27,7 +27,7 @@ class Bing:
         assert type(timeout) == int, "timeout must be integer"
         self.timeout = timeout
 
-        self.headers = {'User-Agent': 'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'}
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 4.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36'}
         self.page_counter = 0
 
     def save_image(self, link, file_path):
