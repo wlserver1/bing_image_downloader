@@ -14,6 +14,7 @@ def download(query, limit=100, output_dir='dataset', adult_filter_off=True, forc
         adult = 'off'
     else:
         adult = 'on'
+        adult = 'on'
 
     cwd = os.getcwd()
     image_dir = os.path.join(cwd, output_dir, query)
@@ -33,6 +34,10 @@ def download(query, limit=100, output_dir='dataset', adult_filter_off=True, forc
 
     bing = Bing(query, limit, output_dir, adult, timeout)
     bing.run()
+    
+    print("Downloading more files")
+    
+    #----------------------------------
 
 
 if __name__ == '__main__':
